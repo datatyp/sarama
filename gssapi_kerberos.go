@@ -1,9 +1,12 @@
 package sarama
 
 import (
-	"encoding/asn1"
+	// "encoding/asn1"
+	"github.com/jcmturner/gofork/encoding/asn1"
+
 	"encoding/binary"
 	"fmt"
+
 	"io"
 	"strings"
 	"time"
@@ -81,6 +84,7 @@ func (krbAuth *GSSAPIKerberosAuth) readPackage(broker *Broker) ([]byte, int, err
 	bytesRead := 0
 	lengthInBytes := make([]byte, 4)
 	bytes, err := io.ReadFull(broker.conn, lengthInBytes)
+	Logger.Printf("readPackage(1): %v\n", bytes)
 	if err != nil {
 		return nil, bytesRead, err
 	}
@@ -88,6 +92,7 @@ func (krbAuth *GSSAPIKerberosAuth) readPackage(broker *Broker) ([]byte, int, err
 	payloadLength := binary.BigEndian.Uint32(lengthInBytes)
 	payloadBytes := make([]byte, payloadLength)         // buffer for read..
 	bytes, err = io.ReadFull(broker.conn, payloadBytes) // read bytes
+	Logger.Printf("readPackage(2): %v\n", bytes)
 	if err != nil {
 		return payloadBytes, bytesRead, err
 	}
