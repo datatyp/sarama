@@ -42,7 +42,11 @@ func createClient(config *GSSAPIConfig, cfg *krb5config.Config) (KerberosClient,
 		if err != nil {
 			return nil, err
 		}
-		client = krb5client.NewClientWithKeytab(config.Username, config.Realm, kt, cfg)
+		if config.DisablePAFXFAST {
+			client = krb5client.NewClientWithKeytab(config.Username, config.Realm, kt, cfg, krb5client.DisablePAFXFAST(true))
+		} else {
+			client = krb5client.NewClientWithKeytab(config.Username, config.Realm, kt, cfg)
+		}
 	} else {
 		client = krb5client.NewClientWithPassword(config.Username,
 			config.Realm, config.Password, cfg)
