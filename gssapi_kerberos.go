@@ -233,13 +233,13 @@ func (krbAuth *GSSAPIKerberosAuth) Authorize(broker *Broker) error {
 	for {
 		packBytes, err := krbAuth.initSecContext(receivedBytes, kerberosClient)
 		if err != nil {
-			Logger.Printf("Error while performing GSSAPI Kerberos Authentication: %s\n", err)
+			Logger.Printf("Error while performing GSSAPI Kerberos Authentication (1): %s\n", err)
 			return err
 		}
 		requestTime := time.Now()
 		bytesWritten, err := krbAuth.writePackage(broker, packBytes)
 		if err != nil {
-			Logger.Printf("Error while performing GSSAPI Kerberos Authentication: %s\n", err)
+			Logger.Printf("Error while performing GSSAPI Kerberos Authentication (2): %s\n", err)
 			return err
 		}
 		broker.updateOutgoingCommunicationMetrics(bytesWritten)
@@ -249,7 +249,7 @@ func (krbAuth *GSSAPIKerberosAuth) Authorize(broker *Broker) error {
 			requestLatency := time.Since(requestTime)
 			broker.updateIncomingCommunicationMetrics(bytesRead, requestLatency)
 			if err != nil {
-				Logger.Printf("Error while performing GSSAPI Kerberos Authentication: %s\n", err)
+				Logger.Printf("Error while performing GSSAPI Kerberos Authentication (3): %s\n", err)
 				return err
 			}
 		} else if krbAuth.step == GSS_API_FINISH {
