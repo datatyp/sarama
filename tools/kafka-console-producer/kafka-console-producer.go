@@ -8,8 +8,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Shopify/sarama"
-	"github.com/Shopify/sarama/tools/tls"
+	"github.com/datatyp/sarama"
+	"github.com/datatyp/sarama/tools/tls"
 	"github.com/rcrowley/go-metrics"
 )
 
